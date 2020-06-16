@@ -1,0 +1,56 @@
+#version: @project.version@
+
+server:
+  port: 7070
+
+spring:
+  elasticsearch:
+    rest:
+      uris: 127.0.0.1:9200
+  aop:
+    proxy-target-class: true
+  messages:
+    encoding: utf-8
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  servlet:
+    multipart:
+      max-request-size: 10MB
+      max-file-size: 10MB
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+
+#
+#MQTT配置信息
+#
+mqtt:
+  #MQTT-用户名
+  username: admin
+  #MQTT-密码
+  password: public
+  #MQTT-服务器连接地址，如果有多个，用逗号隔开，如：tcp://127.0.0.1:61613，tcp://192.168.2.133:61613
+  url: tcp://127.0.0.1:1883
+  #MQTT-连接服务器默认客户端ID
+  client:
+    id: dataMonitor001
+  #MQTT-默认的消息推送主题，实际可在调用接口时指定
+  publish:
+    defaultTopic: topic
+  subscribe:
+    qos: 1
+    #订阅的主题，多个主题用逗号分隔
+    topics: userChange
+  #连接超时（毫秒）
+  completionTimeout: 3000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ['httptrace', 'metrics']
+
+logging:
+  file: logs/dataMonitor.log
